@@ -78,9 +78,10 @@ s  = setup(
            target = 'PRCP',
            session_id=123,
             index = False,
-            numeric_imputation="knn",
-            numeric_iterative_imputer="lightgbm",
-            categorical_iterative_imputer="knn"
+            fold = 2,
+            #numeric_imputation="knn",
+            #numeric_iterative_imputer="lightgbm",
+            #categorical_iterative_imputer="knn"
     )
 print("Setup terminé")
 
