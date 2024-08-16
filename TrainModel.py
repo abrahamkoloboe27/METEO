@@ -47,7 +47,7 @@ df.drop(columns=["TAVG","TMAX" ,"TMIN","PRCP_0","TMAX_0","TMIN_0"], inplace=True
 print("Colonnes inutiles supprimées")
 
 # Traiter les dates manquantes
-df, empty_dates = clean_time_index(df)
+df = clean_time_index(df)
 print("Dates manquantes traitées")
 
 # Mettre à jour l'index
