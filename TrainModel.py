@@ -31,14 +31,15 @@ def clean_time_index(data):
     return df, dates_manquantes
 
 def process_missing_values(data):
-  data["PRCP"].interpolate(method='spline',
+    data["PRCP"].interpolate(method='spline',
                            order=5,
                            inplace=True)
-  return data
+    return data
 
 
 # Charger les données
 df = pd.read_csv('data/Daily_Diif_30_days_Impute_Linear.csv')
+df
 print("Fichier chargé")
 df.drop(columns=["TAVG","TMAX" ,"TMIN","PRCP_0","TMAX_0","TMIN_0"], inplace=True)
 print("Colonnes inutiles supprimées")
@@ -52,15 +53,15 @@ print("Index mis à jour")
 df = process_missing_values(df)
 print("Valeurs manquantes traitées")
 
-
+df.columns 
 s  = setup(
-    data = df,
+            data = df,
            target = 'PRCP',
            session_id=123,
-    index = False,
-    numeric_imputation="knn",
-    numeric_iterative_imputer="lightgbm",
-    categorical_iterative_imputer="knn"
+            index = False,
+            numeric_imputation="knn",
+            numeric_iterative_imputer="lightgbm",
+            categorical_iterative_imputer="knn"
     )
 print("Setup terminé")
 
