@@ -1,6 +1,12 @@
 import pandas as pd
 from pycaret.regression import *
 import numpy as np
+import os
+import shutil
+
+# Créer un répertoire pour les modèles s'il n'existe pas
+os.makedirs('models', exist_ok=True)
+
 
 
 def clean_time_index(data):
@@ -78,36 +84,51 @@ s  = setup(
            target = 'PRCP',
            session_id=123,
             index = False,
-            fold = 2,
-            #numeric_imputation="knn",
-            #numeric_iterative_imputer="lightgbm",
-            #categorical_iterative_imputer="knn"
+            fold = 10,
+            numeric_imputation="knn",
+            numeric_iterative_imputer="lightgbm",
+            categorical_iterative_imputer="knn",
+            normalize=True,
+            transformation=True,
+            experiment_name='SAVE_TrainModel_1',
+            log_experiment = "mlflow",
+            log_plots = True,
+            log_profile = True,
+            log_data = True,
     )
 print("Setup terminé")
 
 
-best = compare_models(
-    include=['lr', 
-             #'lasso', 
-             #'ridge', 
-             #'en', 'knn', 'dt', 'rf'
-             ],
-    fold = 3,
+best = compare_models(fold = 3,
     sort = 'RMSE',
-    n_select = 3,
+    n_select = 5,
+    turbo = False
 )
 print("Modèles comparés")
 
-#tuned_best = [tune_model(i) for i in best]
+tuned_best = [tune_model(i) for i in best]
 print("Modèles tunés")
 
-#blender = blend_models(estimator_list = tuned_best)
+blender = blend_models(estimator_list = tuned_best)
 print("Modèles mélangés")
 
-#final_model = finalize_model(blender)
+final_model = finalize_model(blender)
 print("Modèle finalisé")
 
 final_model = finalize_model(best)
 # Sauvégarder tous les models 
 save_model(final_model, 'model')
 print("Modèle sauvegardé")
+
+# Sauvegarder tous les models
+for i in tuned_best:
+  save_model(i, f'models/model_{i}')
+
+# Sauvegarder l'expérience
+save_experiment('SAVE_TrainModel_1')
+
+
+# Zipper le dossier models
+shutil.make_archive('models', 'zip', 'models')
+
+
