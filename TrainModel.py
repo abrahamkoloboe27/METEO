@@ -28,12 +28,13 @@ def clean_time_index(data):
     # Réinitialisez l'index pour le ramener en colonne
     df.reset_index(inplace=True)
 
-    return df, dates_manquantes
+    return df
 
 def process_missing_values(data):
     data["PRCP"].interpolate(method='spline',
-                           order=5,
-                           inplace=True)
+                           order=3,
+                           inplace=True,
+                           )
     return data
 
 
@@ -41,10 +42,15 @@ def process_missing_values(data):
 df = pd.read_csv('data/Daily_Diif_30_days_Impute_Linear.csv')
 df
 print("Fichier chargé")
+
 df.drop(columns=["TAVG","TMAX" ,"TMIN","PRCP_0","TMAX_0","TMIN_0"], inplace=True)
 print("Colonnes inutiles supprimées")
+
+# Traiter les dates manquantes
 df, empty_dates = clean_time_index(df)
 print("Dates manquantes traitées")
+
+# Mettre à jour l'index
 df.set_index("DATE", inplace=True)
 print("Index mis à jour")
 
@@ -54,6 +60,19 @@ df = process_missing_values(df)
 print("Valeurs manquantes traitées")
 
 df.columns 
+# Affficher le pourcentage de valeurs manquantes par colonne
+missing_values = df.isna().mean() * 100
+missing_values
+print("Pourcentage de valeurs manquantes par colonne affiché")
+
+# Supprimer les lignes de la colone 'PRCP' qui ont des valeurs manquantes
+df.dropna(subset=['PRCP'], inplace=True)
+
+# Sauvegarder le fichier
+df.to_csv('data/Daily_Diif_30_days_Impute_Linear_Clean.csv', index=False)
+
+
+# Initialiser l'environnement PyCaret
 s  = setup(
             data = df,
            target = 'PRCP',
