@@ -39,13 +39,18 @@ def process_missing_values(data):
 
 # Charger les données
 df = pd.read_csv('data/Daily_Diif_30_days_Impute_Linear.csv')
+print("Fichier chargé")
 df.drop(columns=["TAVG","TMAX" ,"TMIN","PRCP_0","TMAX_0","TMIN_0"], inplace=True)
+print("Colonnes inutiles supprimées")
 df, empty_dates = clean_time_index(df)
+print("Dates manquantes traitées")
 df.set_index("DATE", inplace=True)
+print("Index mis à jour")
 
 
 # Traiter les valeurs manquantes
 df = process_missing_values(df)
+print("Valeurs manquantes traitées")
 
 
 s  = setup(
@@ -55,10 +60,9 @@ s  = setup(
     index = False,
     numeric_imputation="knn",
     numeric_iterative_imputer="lightgbm",
-    categorical_iterative_imputer="knn",
-
-           #date_features= ["Jour", "Mois", "Annee"]
+    categorical_iterative_imputer="knn"
     )
+print("Setup terminé")
 
 
 best = compare_models(
@@ -67,12 +71,17 @@ best = compare_models(
     sort = 'RMSE',
     n_select = 3,
 )
+print("Modèles comparés")
 
 tuned_best = [tune_model(i) for i in best]
+print("Modèles tunés")
 
 blender = blend_models(estimator_list = tuned_best)
+print("Modèles mélangés")
 
 final_model = finalize_model(blender)
+print("Modèle finalisé")
 
 # Sauvégarder tous les models 
 save_model(final_model, 'model')
+print("Modèle sauvegardé")
