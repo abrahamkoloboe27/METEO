@@ -32,7 +32,7 @@ def clean_time_index(data):
 
 def process_missing_values(data):
   data["PRCP"].interpolate(method='spline',
-                           order=10,
+                           order=5,
                            inplace=True)
   return data
 
