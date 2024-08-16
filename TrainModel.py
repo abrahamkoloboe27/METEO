@@ -92,9 +92,7 @@ s  = setup(
             transformation=True,
             experiment_name='SAVE_TrainModel_1',
             log_experiment = "mlflow",
-            log_plots = True,
-            log_profile = True,
-            log_data = True,
+   
     )
 print("Setup terminé")
 
