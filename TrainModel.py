@@ -106,7 +106,7 @@ print("Modèles mélangés")
 #final_model = finalize_model(blender)
 print("Modèle finalisé")
 
-final_model = finalize_model(best[0])
+final_model = finalize_model(best)
 # Sauvégarder tous les models 
 save_model(final_model, 'model')
 print("Modèle sauvegardé")
