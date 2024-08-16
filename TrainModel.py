@@ -86,20 +86,24 @@ print("Setup terminé")
 
 
 best = compare_models(
-    include=['lr', 'lasso', 'ridge', 'en', 'knn', 'dt', 'rf'],
-    fold = 5,
+    include=['lr', 
+             'lasso', 
+             'ridge', 
+             #'en', 'knn', 'dt', 'rf'
+             ],
+    fold = 3,
     sort = 'RMSE',
     n_select = 3,
 )
 print("Modèles comparés")
 
-tuned_best = [tune_model(i) for i in best]
+#tuned_best = [tune_model(i) for i in best]
 print("Modèles tunés")
 
-blender = blend_models(estimator_list = tuned_best)
+#blender = blend_models(estimator_list = tuned_best)
 print("Modèles mélangés")
 
-final_model = finalize_model(blender)
+#final_model = finalize_model(blender)
 print("Modèle finalisé")
 
 # Sauvégarder tous les models 
