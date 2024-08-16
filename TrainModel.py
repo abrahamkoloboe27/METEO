@@ -87,8 +87,8 @@ print("Setup terminé")
 
 best = compare_models(
     include=['lr', 
-             'lasso', 
-             'ridge', 
+             #'lasso', 
+             #'ridge', 
              #'en', 'knn', 'dt', 'rf'
              ],
     fold = 3,
@@ -106,6 +106,7 @@ print("Modèles mélangés")
 #final_model = finalize_model(blender)
 print("Modèle finalisé")
 
+final_model = finalize_model(best[0])
 # Sauvégarder tous les models 
 save_model(final_model, 'model')
 print("Modèle sauvegardé")
