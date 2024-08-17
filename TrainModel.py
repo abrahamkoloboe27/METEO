@@ -104,7 +104,7 @@ best = compare_models(fold = 3,
 )
 print("Modèles comparés")
 
-# tuned_best = [tune_model(i) for i in best]
+tuned_best = [tune_model(i, cv = 2) for i in best]
 print("Modèles tunés")
 
 blender = blend_models(estimator_list = tuned_best)
