@@ -107,21 +107,21 @@ print("Modèles comparés")
 # tuned_best = [tune_model(i, fold = 2) for i in best]
 print("Modèles tunés")
 
-blender = blend_models(estimator_list = best)
+# blender = blend_models(estimator_list = best)
 print("Modèles mélangés")
 
-final_model = finalize_model(blender)
+# final_model = finalize_model(blender)
 print("Modèle finalisé")
 
 final_model_best = finalize_model(best[0])
 # Sauvégarder tous les models 
-save_model(final_model, 'model')
+# save_model(final_model, 'model')
 print("Modèle sauvegardé")
-save_model(final_best , "models/final-best")
+# save_model(final_best , "models/final-best")
 
 # Sauvegarder tous les models
 for i in best:
-  save_model(i, f'models/model_{i}')
+  save_model(finalize_model(i), f'models/model_{i}')
   print (f"Modele.{i} sauvegardé ")
 
 # Sauvegarder l'expérience
