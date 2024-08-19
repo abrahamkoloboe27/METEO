@@ -97,16 +97,23 @@ s  = setup(
 print("Setup terminé")
 
 
-best = compare_models(fold = 3,
+best = compare_models(fold = 10,
     sort = 'RMSE',
     n_select = 5,
     turbo = False
 )
 print("Modèles comparés")
 
-# tuned_best = [tune_model(i, fold = 2) for i in best]
+tuned_best = [tune_model(i) for i in best]
 print("Modèles tunés")
 
+best = compare_models(best , 
+                fold = 10,
+                sort = 'RMSE',
+                n_select = 5,
+                      )
+
+print("Modèles fine tunés comparés")
 # blender = blend_models(estimator_list = best)
 print("Modèles mélangés")
 
